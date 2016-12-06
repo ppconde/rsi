@@ -33,23 +33,33 @@ namespace RSI_Project
                 //string startupPath = Environment.CurrentDirectory;
                 //string directoryPath = System.IO.Path.GetDirectoryName(startupPath);
                 //int numbFiles = openFileDialog1.FileName.Length;
-                Bitmap[] images;
-                for(int i=1; i<openFileDialog1.FileName.Length; i++)
+                //Bitmap image = (Bitmap)Image.FromFile(openFileDialog1.InitialDirectory);
+                List<Bitmap> images = new List<Bitmap>();
+                foreach (string file in openFileDialog1.FileNames)
                 {
-                    images[i] = openFileDialog1.FileNames.Select(fn => new Bitmap(fn)).ToArray();
+                    images.Add(new Bitmap(file));
+                }
+                /*
+                for (int i=1; i<openFileDialog1.FileName.Length; i++)
+                {
+                    ImageToByte2(image);
+                    //images[i] = openFileDialog1.FileNames.Select(fn => new Bitmap(fn)).ToArray();
                     //Estou com dificuldades em armazenar um array de imagens. Ele tem problemas na classe Bitmap.
                     //Não sei se devíamos usar o foreach e uma lista com as imagens carregadas invés.
                 }
+                */
             }
 
         }
+        /*
         public static byte[] ImageToByte2(Image img)
         {
             using (var stream = new MemoryStream())
             {
-                img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                img.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
                 return stream.ToArray();
             }
         }
+        */
     }
 }
