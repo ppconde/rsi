@@ -13,53 +13,101 @@ namespace RSI_Project
 {
     public partial class Form1 : Form
     {
+        List<Bitmap> images = new List<Bitmap>();
+
         public Form1()
         {
             InitializeComponent();
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
         }
+        private void InitializeTrackBar()
+        {
+            //Track Bar 1
+            trackBar1.Minimum = 1;
+            trackBar1.Maximum = images.Count();
+            trackBar1.TickFrequency = images.Count();
+            trackBar1.LargeChange = 10;
+            trackBar1.SmallChange = 5;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            //Track Bar 2
+            trackBar2.Minimum = 1;
+            trackBar2.Maximum = images.Count();
+            trackBar2.TickFrequency = images.Count();
+            trackBar2.LargeChange = 10;
+            trackBar2.SmallChange = 5;
+            //Track Bar 3
 
+            trackBar3.Minimum = 1;
+            trackBar3.Maximum = images.Count();
+            trackBar3.TickFrequency = images.Count();
+            trackBar3.LargeChange = 10;
+            trackBar3.SmallChange = 5;
+        }
         private void button1_Click(object sender, EventArgs e)
         {
-            // Displays an OpenFileDialog so the user can select a Cursor.
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Multiselect = true;
             openFileDialog1.Filter = "BMP Files|*.bmp";
             openFileDialog1.Title = "Select a BMP file";
 
             // Show the Dialog.
             // If the user clicked OK in the dialog and
-            // a .CUR file was selected, open it.
+            // a .BMP will be loaded
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                //string startupPath = Environment.CurrentDirectory;
-                //string directoryPath = System.IO.Path.GetDirectoryName(startupPath);
-                //int numbFiles = openFileDialog1.FileName.Length;
-                //Bitmap image = (Bitmap)Image.FromFile(openFileDialog1.InitialDirectory);
-                List<Bitmap> images = new List<Bitmap>();
+
                 foreach (string file in openFileDialog1.FileNames)
                 {
                     images.Add(new Bitmap(file));
                 }
-                /*
-                for (int i=1; i<openFileDialog1.FileName.Length; i++)
-                {
-                    ImageToByte2(image);
-                    //images[i] = openFileDialog1.FileNames.Select(fn => new Bitmap(fn)).ToArray();
-                    //Estou com dificuldades em armazenar um array de imagens. Ele tem problemas na classe Bitmap.
-                    //Não sei se devíamos usar o foreach e uma lista com as imagens carregadas invés.
-                }
-                */
+                //Insert Track Bar properties
+                InitializeTrackBar();
+
+                //Verificação de contagem de imagens. Está a funcionar bem!
+                textBox1.Text = "" + images.Count();
             }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
 
         }
-        /*
-        public static byte[] ImageToByte2(Image img)
+
+        private void pictureBox1_Click(object sender, EventArgs e)
         {
-            using (var stream = new MemoryStream())
-            {
-                img.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
-                return stream.ToArray();
-            }
+
         }
-        */
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            System.Windows.Forms.TrackBar myTB1;
+            myTB1 = (System.Windows.Forms.TrackBar)sender;
+            pictureBox1.Image = images.ElementAt < T > myTB1.Value;
+
+        }
+
+        private void trackBar2_Scroll(object sender, EventArgs e)
+        {
+            System.Windows.Forms.TrackBar myTB2;
+            myTB2 = (System.Windows.Forms.TrackBar)sender;
+        }
+
+        private void trackBar3_Scroll(object sender, EventArgs e)
+        {
+            System.Windows.Forms.TrackBar myTB3;
+            myTB3 = (System.Windows.Forms.TrackBar)sender;
+        }
     }
 }
