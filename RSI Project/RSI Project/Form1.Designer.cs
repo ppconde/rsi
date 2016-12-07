@@ -47,7 +47,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(226, 229);
+            this.button1.Location = new System.Drawing.Point(228, 278);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
@@ -63,7 +63,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(447, 229);
+            this.textBox1.Location = new System.Drawing.Point(448, 278);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(75, 20);
             this.textBox1.TabIndex = 1;
@@ -80,9 +80,9 @@
             // 
             // trackBar1
             // 
-            this.trackBar1.Location = new System.Drawing.Point(87, 229);
+            this.trackBar1.Location = new System.Drawing.Point(12, 229);
             this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(104, 45);
+            this.trackBar1.Size = new System.Drawing.Size(260, 45);
             this.trackBar1.TabIndex = 3;
             this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
@@ -106,17 +106,17 @@
             // 
             // trackBar2
             // 
-            this.trackBar2.Location = new System.Drawing.Point(327, 229);
+            this.trackBar2.Location = new System.Drawing.Point(278, 229);
             this.trackBar2.Name = "trackBar2";
-            this.trackBar2.Size = new System.Drawing.Size(104, 45);
+            this.trackBar2.Size = new System.Drawing.Size(200, 45);
             this.trackBar2.TabIndex = 6;
             this.trackBar2.Scroll += new System.EventHandler(this.trackBar2_Scroll);
             // 
             // trackBar3
             // 
-            this.trackBar3.Location = new System.Drawing.Point(528, 229);
+            this.trackBar3.Location = new System.Drawing.Point(484, 229);
             this.trackBar3.Name = "trackBar3";
-            this.trackBar3.Size = new System.Drawing.Size(104, 45);
+            this.trackBar3.Size = new System.Drawing.Size(183, 45);
             this.trackBar3.TabIndex = 7;
             this.trackBar3.Scroll += new System.EventHandler(this.trackBar3_Scroll);
             // 

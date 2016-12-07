@@ -25,25 +25,28 @@ namespace RSI_Project
         private void InitializeTrackBar()
         {
             //Track Bar 1
-            trackBar1.Minimum = 1;
+            trackBar1.Minimum = 0;
             trackBar1.Maximum = images.Count();
             trackBar1.TickFrequency = images.Count();
             trackBar1.LargeChange = 10;
             trackBar1.SmallChange = 5;
             this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+
             //Track Bar 2
-            trackBar2.Minimum = 1;
+            trackBar2.Minimum = 0;
             trackBar2.Maximum = images.Count();
             trackBar2.TickFrequency = images.Count();
             trackBar2.LargeChange = 10;
             trackBar2.SmallChange = 5;
+            this.trackBar2.Scroll += new System.EventHandler(this.trackBar2_Scroll);
+            
             //Track Bar 3
-
-            trackBar3.Minimum = 1;
+            trackBar3.Minimum = 0;
             trackBar3.Maximum = images.Count();
             trackBar3.TickFrequency = images.Count();
             trackBar3.LargeChange = 10;
             trackBar3.SmallChange = 5;
+            this.trackBar3.Scroll += new System.EventHandler(this.trackBar3_Scroll);
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -57,7 +60,6 @@ namespace RSI_Project
             // a .BMP will be loaded
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-
                 foreach (string file in openFileDialog1.FileNames)
                 {
                     images.Add(new Bitmap(file));
@@ -94,7 +96,7 @@ namespace RSI_Project
         {
             System.Windows.Forms.TrackBar myTB1;
             myTB1 = (System.Windows.Forms.TrackBar)sender;
-            pictureBox1.Image = images.ElementAt < T > myTB1.Value;
+            pictureBox1.Image = images.ElementAtOrDefault(myTB1.Value);
 
         }
 
