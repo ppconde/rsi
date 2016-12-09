@@ -13,7 +13,9 @@ namespace RSI_Project
 {
     public partial class Form1 : Form
     {
-        List<Bitmap> images = new List<Bitmap>();
+        List<Bitmap> orig_img = new List<Bitmap>();
+        List<Bitmap> frontal_img = new List<Bitmap>();
+        List<Bitmap> lateral_img = new List<Bitmap>();
 
         public Form1()
         {
@@ -26,24 +28,24 @@ namespace RSI_Project
         {
             //Track Bar 1
             trackBar1.Minimum = 0;
-            trackBar1.Maximum = images.Count();
-            trackBar1.TickFrequency = images.Count();
+            trackBar1.Maximum = orig_img.Count();
+            trackBar1.TickFrequency = orig_img.Count();
             trackBar1.LargeChange = 10;
             trackBar1.SmallChange = 5;
             this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
 
             //Track Bar 2
             trackBar2.Minimum = 0;
-            trackBar2.Maximum = images.Count();
-            trackBar2.TickFrequency = images.Count();
+            trackBar2.Maximum = orig_img.Count();
+            trackBar2.TickFrequency = orig_img.Count();
             trackBar2.LargeChange = 10;
             trackBar2.SmallChange = 5;
             this.trackBar2.Scroll += new System.EventHandler(this.trackBar2_Scroll);
             
             //Track Bar 3
             trackBar3.Minimum = 0;
-            trackBar3.Maximum = images.Count();
-            trackBar3.TickFrequency = images.Count();
+            trackBar3.Maximum = orig_img.Count();
+            trackBar3.TickFrequency = orig_img.Count();
             trackBar3.LargeChange = 10;
             trackBar3.SmallChange = 5;
             this.trackBar3.Scroll += new System.EventHandler(this.trackBar3_Scroll);
@@ -62,13 +64,28 @@ namespace RSI_Project
             {
                 foreach (string file in openFileDialog1.FileNames)
                 {
-                    images.Add(new Bitmap(file));
+                    //Original Images
+                    orig_img.Add(new Bitmap(file));
+
+                    //Frontal Images
+                    Bitmap frontal = new Bitmap(file);
+                    int x, y;
+
+                    //Loop through the images pixels create collumn
+                    for(x=0; x<frontal.Height; x++)
+                    {
+                        //Tentativa de buscar as linhas da imagem
+                        Graphics.FromImage.x
+                    }
+
+
+                    //Lateral Images
                 }
                 //Insert Track Bar properties
                 InitializeTrackBar();
 
                 //Verificação de contagem de imagens. Está a funcionar bem!
-                textBox1.Text = "" + images.Count();
+                textBox1.Text = "" + orig_img.Count();
             }
         }
 
@@ -96,7 +113,7 @@ namespace RSI_Project
         {
             System.Windows.Forms.TrackBar myTB1;
             myTB1 = (System.Windows.Forms.TrackBar)sender;
-            pictureBox1.Image = images.ElementAtOrDefault(myTB1.Value);
+            pictureBox1.Image = orig_img.ElementAtOrDefault(myTB1.Value);
 
         }
 
