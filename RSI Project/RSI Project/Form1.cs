@@ -69,16 +69,19 @@ namespace RSI_Project
 
                     //Frontal Images
                     Bitmap frontal = new Bitmap(file);
-                    int x, y;
-
+                    int x_max = orig_img.Count();
+                    int y_max = x_max;
                     //Loop through the images pixels create collumn
-                    for(x=0; x<frontal.Height; x++)
+                    int x;
+                    
+                    for(x=0; x<x_max; x++)
                     {
+                        //Draw new bitmap
+                        DrawToBitmap.
+                        frontal_img.Add(orig_img.ElementAt(x));
+                        //orig_img.ElementAt(x);
                         //Tentativa de buscar as linhas da imagem
-                        Graphics.FromImage.x
                     }
-
-
                     //Lateral Images
                 }
                 //Insert Track Bar properties
@@ -121,6 +124,7 @@ namespace RSI_Project
         {
             System.Windows.Forms.TrackBar myTB2;
             myTB2 = (System.Windows.Forms.TrackBar)sender;
+            pictureBox2.Image = frontal_img.ElementAtOrDefault(myTB2.Value);
         }
 
         private void trackBar3_Scroll(object sender, EventArgs e)
