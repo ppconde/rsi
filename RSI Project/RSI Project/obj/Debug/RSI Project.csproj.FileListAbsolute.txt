@@ -1,0 +1,9 @@
+C:\Users\Utilizador\OneDrive\UA\6ª Matrícula\Redes e Serviços em Imagiologia\Projeto de RSI\rsi\RSI Project\RSI Project\bin\Debug\RSI Project.exe.config
+C:\Users\Utilizador\OneDrive\UA\6ª Matrícula\Redes e Serviços em Imagiologia\Projeto de RSI\rsi\RSI Project\RSI Project\bin\Debug\RSI Project.exe
+C:\Users\Utilizador\OneDrive\UA\6ª Matrícula\Redes e Serviços em Imagiologia\Projeto de RSI\rsi\RSI Project\RSI Project\bin\Debug\RSI Project.pdb
+C:\Users\Utilizador\OneDrive\UA\6ª Matrícula\Redes e Serviços em Imagiologia\Projeto de RSI\rsi\RSI Project\RSI Project\obj\Debug\RSI Project.csprojResolveAssemblyReference.cache
+C:\Users\Utilizador\OneDrive\UA\6ª Matrícula\Redes e Serviços em Imagiologia\Projeto de RSI\rsi\RSI Project\RSI Project\obj\Debug\RSI_Project.Form1.resources
+C:\Users\Utilizador\OneDrive\UA\6ª Matrícula\Redes e Serviços em Imagiologia\Projeto de RSI\rsi\RSI Project\RSI Project\obj\Debug\RSI_Project.Properties.Resources.resources
+C:\Users\Utilizador\OneDrive\UA\6ª Matrícula\Redes e Serviços em Imagiologia\Projeto de RSI\rsi\RSI Project\RSI Project\obj\Debug\RSI Project.csproj.GenerateResource.Cache
+C:\Users\Utilizador\OneDrive\UA\6ª Matrícula\Redes e Serviços em Imagiologia\Projeto de RSI\rsi\RSI Project\RSI Project\obj\Debug\RSI Project.exe
+C:\Users\Utilizador\OneDrive\UA\6ª Matrícula\Redes e Serviços em Imagiologia\Projeto de RSI\rsi\RSI Project\RSI Project\obj\Debug\RSI Project.pdb
