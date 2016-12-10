@@ -67,17 +67,27 @@ namespace RSI_Project
                     //Original Images
                     orig_img.Add(new Bitmap(file));
 
-                    //Frontal Images
-                    Bitmap frontal = new Bitmap(file);
                     int x_max = orig_img.Count();
                     int y_max = x_max;
                     //Loop through the images pixels create collumn
                     int x;
-                    
+                    Rectangle rect = new Rectangle(50, 50, 50, 50);
+
+                    //Empty bmp
+                    var b = new Bitmap(1, 1);
+                    b.SetPixel(0, 0, Color.White);
+                    var result = new Bitmap(b, x_max, y_max);
                     for(x=0; x<x_max; x++)
                     {
-                        //Draw new bitmap
-                        DrawToBitmap.
+                        /*
+                        //Create new bitmap and associated graphics object
+                        Bitmap frontal = new Bitmap(rect.Width, rect.Height);
+                        Graphics g = Graphics.FromImage(frontal);
+
+                        //Draw the specific section of the source bitmap to the new one
+                        g.DrawImage(result, 0, 0, rect, GraphicsUnit.Pixel);
+                        g.Dispose();
+                        */ //Esta parte não funciona como tenciono, deve faltar algo mais
                         frontal_img.Add(orig_img.ElementAt(x));
                         //orig_img.ElementAt(x);
                         //Tentativa de buscar as linhas da imagem
