@@ -17,7 +17,8 @@ namespace RSI_Project
         List<Bitmap> frontal_img = new List<Bitmap>();
         int height;
         int width;
-        Bitmap seed;
+        Bitmap seedFrontal;
+        Bitmap seedLateral;
         List<Bitmap> lateral_img = new List<Bitmap>();
 
         public Form1()
@@ -50,7 +51,7 @@ namespace RSI_Project
             trackBar3.Maximum = orig_img.Count();
             trackBar3.TickFrequency = orig_img.Count();
             trackBar3.LargeChange = 10;
-            trackBar3.SmallChange = 5;
+            trackBar3.SmallChange = 1;
             this.trackBar3.Scroll += new System.EventHandler(this.trackBar3_Scroll);
         }
         private void button1_Click(object sender, EventArgs e)
@@ -80,7 +81,9 @@ namespace RSI_Project
                     height = orig_img[0].Height;
                     width = orig_img[0].Width;
 
-                    seed = new Bitmap(width, height);
+                    seedFrontal = new Bitmap(width, height);
+                    seedLateral = new Bitmap(width, height);
+
                     //Empty bmp
                     /*var b = new Bitmap(1, 1);
                     b.SetPixel(0, 0, Color.White);
@@ -143,24 +146,41 @@ namespace RSI_Project
             System.Windows.Forms.TrackBar myTB2;
             myTB2 = (System.Windows.Forms.TrackBar)sender;
             process_frontal(myTB2.Value);
-            pictureBox2.Image = seed;
+            pictureBox2.Image = seedFrontal;
         }
 
         private void trackBar3_Scroll(object sender, EventArgs e)
         {
             System.Windows.Forms.TrackBar myTB3;
             myTB3 = (System.Windows.Forms.TrackBar)sender;
+            process_lateral(myTB3.Value);
+            pictureBox3.Image = seedLateral;
         }
 
         private void process_frontal(int pos)
         {
-            for (int i = 0; i < orig_img.Count(); i++)
+            int flip = 0;
+            for (int i = orig_img.Count() - 1; i >= 0 && flip < orig_img.Count(); i--)
             {
                 for (int j = 0; j < width; j++)
                 {
                     Color newPixel = orig_img[i].GetPixel(j, pos);
-                    seed.SetPixel(j, i, newPixel);
+                    seedFrontal.SetPixel(j, flip, newPixel);
                 }
+                flip++;
+            }
+        }
+        private void process_lateral(int pos)
+        {
+            int revert = 0;
+            for (int i = orig_img.Count() - 1; i >= 0 && revert < orig_img.Count(); i--)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    Color newPixel = orig_img[i].GetPixel(pos, j);
+                    seedLateral.SetPixel(j, revert, newPixel);
+                }
+                revert++;
             }
         }
     }
