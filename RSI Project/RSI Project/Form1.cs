@@ -15,6 +15,9 @@ namespace RSI_Project
     {
         List<Bitmap> orig_img = new List<Bitmap>();
         List<Bitmap> frontal_img = new List<Bitmap>();
+        int height;
+        int width;
+        Bitmap seed;
         List<Bitmap> lateral_img = new List<Bitmap>();
 
         public Form1()
@@ -31,7 +34,7 @@ namespace RSI_Project
             trackBar1.Maximum = orig_img.Count();
             trackBar1.TickFrequency = orig_img.Count();
             trackBar1.LargeChange = 10;
-            trackBar1.SmallChange = 5;
+            trackBar1.SmallChange = 1;
             this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
 
             //Track Bar 2
@@ -39,7 +42,7 @@ namespace RSI_Project
             trackBar2.Maximum = orig_img.Count();
             trackBar2.TickFrequency = orig_img.Count();
             trackBar2.LargeChange = 10;
-            trackBar2.SmallChange = 5;
+            trackBar2.SmallChange = 1;
             this.trackBar2.Scroll += new System.EventHandler(this.trackBar2_Scroll);
             
             //Track Bar 3
@@ -73,8 +76,13 @@ namespace RSI_Project
                     int x;
                     Rectangle rect = new Rectangle(50, 50, 50, 50);
 
+                    /* Nova implementação */
+                    height = orig_img[0].Height;
+                    width = orig_img[0].Width;
+
+                    seed = new Bitmap(width, height);
                     //Empty bmp
-                    var b = new Bitmap(1, 1);
+                    /*var b = new Bitmap(1, 1);
                     b.SetPixel(0, 0, Color.White);
                     var result = new Bitmap(b, x_max, y_max);
                     for(x=0; x<x_max; x++)
@@ -87,11 +95,11 @@ namespace RSI_Project
                         //Draw the specific section of the source bitmap to the new one
                         g.DrawImage(result, 0, 0, rect, GraphicsUnit.Pixel);
                         g.Dispose();
-                        */ //Esta parte não funciona como tenciono, deve faltar algo mais
+                         //Esta parte não funciona como tenciono, deve faltar algo mais
                         frontal_img.Add(orig_img.ElementAt(x));
                         //orig_img.ElementAt(x);
                         //Tentativa de buscar as linhas da imagem
-                    }
+                    }*/
                     //Lateral Images
                 }
                 //Insert Track Bar properties
@@ -134,13 +142,26 @@ namespace RSI_Project
         {
             System.Windows.Forms.TrackBar myTB2;
             myTB2 = (System.Windows.Forms.TrackBar)sender;
-            pictureBox2.Image = frontal_img.ElementAtOrDefault(myTB2.Value);
+            process_frontal(myTB2.Value);
+            pictureBox2.Image = seed;
         }
 
         private void trackBar3_Scroll(object sender, EventArgs e)
         {
             System.Windows.Forms.TrackBar myTB3;
             myTB3 = (System.Windows.Forms.TrackBar)sender;
+        }
+
+        private void process_frontal(int pos)
+        {
+            for (int i = 0; i < orig_img.Count(); i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    Color newPixel = orig_img[i].GetPixel(j, pos);
+                    seed.SetPixel(j, i, newPixel);
+                }
+            }
         }
     }
 }
