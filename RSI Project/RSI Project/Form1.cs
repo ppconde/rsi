@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Diagnostics;
 
 namespace RSI_Project
 {
@@ -33,23 +34,25 @@ namespace RSI_Project
             //Track Bar 1
             trackBar1.Minimum = 0;
             trackBar1.Maximum = orig_img.Count();
-            trackBar1.TickFrequency = orig_img.Count();
+            trackBar1.TickFrequency = 10;
             trackBar1.LargeChange = 10;
             trackBar1.SmallChange = 1;
             this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
 
             //Track Bar 2
             trackBar2.Minimum = 0;
-            trackBar2.Maximum = orig_img.Count();
-            trackBar2.TickFrequency = orig_img.Count();
+            trackBar2.Maximum = orig_img[0].Width-1;
+            //trackBar2.Maximum = orig_img.Count();
+            trackBar2.TickFrequency = 10;
             trackBar2.LargeChange = 10;
             trackBar2.SmallChange = 1;
             this.trackBar2.Scroll += new System.EventHandler(this.trackBar2_Scroll);
-            
+
             //Track Bar 3
             trackBar3.Minimum = 0;
-            trackBar3.Maximum = orig_img.Count();
-            trackBar3.TickFrequency = orig_img.Count();
+            trackBar3.Maximum = orig_img[0].Height-1;
+            //trackBar3.Maximum = orig_img.Count();
+            trackBar3.TickFrequency = 10;
             trackBar3.LargeChange = 10;
             trackBar3.SmallChange = 1;
             this.trackBar3.Scroll += new System.EventHandler(this.trackBar3_Scroll);
@@ -120,7 +123,14 @@ namespace RSI_Project
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-
+            MouseEventArgs me = (MouseEventArgs)e;
+            Point coordinates = me.Location;
+            int px = coordinates.X * width / pictureBox1.Width;
+            int py = coordinates.Y * height / pictureBox1.Height;
+            process_frontal(py);
+            process_lateral(px);
+            pictureBox2.Image = seedFrontal;
+            pictureBox3.Image = seedLateral;
         }
 
         private void pictureBox2_Click(object sender, EventArgs e)
@@ -159,12 +169,13 @@ namespace RSI_Project
 
         private void process_frontal(int pos)
         {
+            Color newPixel;
             int flip = 0;
             for (int i = orig_img.Count() - 1; i >= 0 && flip < orig_img.Count(); i--)
             {
                 for (int j = 0; j < width; j++)
                 {
-                    Color newPixel = orig_img[i].GetPixel(j, pos);
+                    newPixel = orig_img[i].GetPixel(j, pos);
                     seedFrontal.SetPixel(j, flip, newPixel);
                 }
                 flip++;
@@ -173,11 +184,12 @@ namespace RSI_Project
         private void process_lateral(int pos)
         {
             int revert = 0;
+            Color newPixel;
             for (int i = orig_img.Count() - 1; i >= 0 && revert < orig_img.Count(); i--)
             {
                 for (int j = 0; j < height; j++)
                 {
-                    Color newPixel = orig_img[i].GetPixel(pos, j);
+                    newPixel = orig_img[i].GetPixel(pos, j);
                     seedLateral.SetPixel(j, revert, newPixel);
                 }
                 revert++;

@@ -101,7 +101,7 @@
             // 
             this.pictureBox3.Location = new System.Drawing.Point(791, 12);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(344, 398);
+            this.pictureBox3.Size = new System.Drawing.Size(366, 397);
             this.pictureBox3.TabIndex = 5;
             this.pictureBox3.TabStop = false;
             this.pictureBox3.Click += new System.EventHandler(this.pictureBox3_Click);
@@ -118,7 +118,7 @@
             // 
             this.trackBar3.Location = new System.Drawing.Point(791, 415);
             this.trackBar3.Name = "trackBar3";
-            this.trackBar3.Size = new System.Drawing.Size(344, 45);
+            this.trackBar3.Size = new System.Drawing.Size(366, 45);
             this.trackBar3.TabIndex = 7;
             this.trackBar3.Scroll += new System.EventHandler(this.trackBar3_Scroll);
             // 
@@ -126,7 +126,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1147, 520);
+            this.ClientSize = new System.Drawing.Size(1179, 520);
             this.Controls.Add(this.trackBar3);
             this.Controls.Add(this.trackBar2);
             this.Controls.Add(this.pictureBox3);
