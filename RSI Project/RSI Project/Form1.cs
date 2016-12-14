@@ -21,6 +21,16 @@ namespace RSI_Project
         Bitmap seedFrontal;
         Bitmap seedLateral;
         List<Bitmap> lateral_img = new List<Bitmap>();
+        int currBMP, currF,currL;
+
+        int w_iF, h_iF, w_cF, h_cF;
+        int w_iL, h_iL, w_cL, h_cL;
+
+
+        int px, py;
+
+        Boolean paintHandler = false;
+
 
         public Form1()
         {
@@ -33,7 +43,7 @@ namespace RSI_Project
         {
             //Track Bar 1
             trackBar1.Minimum = 0;
-            trackBar1.Maximum = orig_img.Count();
+            trackBar1.Maximum = orig_img.Count()-1;
             trackBar1.TickFrequency = 10;
             trackBar1.LargeChange = 10;
             trackBar1.SmallChange = 1;
@@ -83,36 +93,18 @@ namespace RSI_Project
                     /* Nova implementação */
                     height = orig_img[0].Height;
                     width = orig_img[0].Width;
+                    Trace.WriteLine(width);
+                    Trace.WriteLine(height);
 
                     seedFrontal = new Bitmap(width, height);
                     seedLateral = new Bitmap(width, height);
 
-                    //Empty bmp
-                    /*var b = new Bitmap(1, 1);
-                    b.SetPixel(0, 0, Color.White);
-                    var result = new Bitmap(b, x_max, y_max);
-                    for(x=0; x<x_max; x++)
-                    {
-                        /*
-                        //Create new bitmap and associated graphics object
-                        Bitmap frontal = new Bitmap(rect.Width, rect.Height);
-                        Graphics g = Graphics.FromImage(frontal);
-
-                        //Draw the specific section of the source bitmap to the new one
-                        g.DrawImage(result, 0, 0, rect, GraphicsUnit.Pixel);
-                        g.Dispose();
-                         //Esta parte não funciona como tenciono, deve faltar algo mais
-                        frontal_img.Add(orig_img.ElementAt(x));
-                        //orig_img.ElementAt(x);
-                        //Tentativa de buscar as linhas da imagem
-                    }*/
-                    //Lateral Images
                 }
                 //Insert Track Bar properties
                 InitializeTrackBar();
 
                 //Verificação de contagem de imagens. Está a funcionar bem!
-                textBox1.Text = "" + orig_img.Count();
+                textBox1.Text = orig_img.Count().ToString();
             }
         }
 
@@ -125,12 +117,21 @@ namespace RSI_Project
         {
             MouseEventArgs me = (MouseEventArgs)e;
             Point coordinates = me.Location;
-            int px = coordinates.X * width / pictureBox1.Width;
-            int py = coordinates.Y * height / pictureBox1.Height;
+            px = coordinates.X * width / pictureBox1.Width;
+            py = coordinates.Y * height / pictureBox1.Height;
             process_frontal(py);
             process_lateral(px);
             pictureBox2.Image = seedFrontal;
             pictureBox3.Image = seedLateral;
+            w_iF = pictureBox2.Image.Width;
+            h_iF = pictureBox2.Image.Height;
+            w_cF = pictureBox2.ClientSize.Width;
+            h_cF = pictureBox2.ClientSize.Height;
+            w_iL = pictureBox3.Image.Width;
+            h_iL = pictureBox3.Image.Height;
+            w_cL = pictureBox3.ClientSize.Width;
+            h_cL = pictureBox3.ClientSize.Height;
+            paintHandler = true;
         }
 
         private void pictureBox2_Click(object sender, EventArgs e)
@@ -147,53 +148,215 @@ namespace RSI_Project
         {
             System.Windows.Forms.TrackBar myTB1;
             myTB1 = (System.Windows.Forms.TrackBar)sender;
-            pictureBox1.Image = orig_img.ElementAtOrDefault(myTB1.Value);
-
+            currBMP = myTB1.Value;
+            pictureBox1.Image = orig_img.ElementAtOrDefault(myTB1.Value);        
         }
 
         private void trackBar2_Scroll(object sender, EventArgs e)
         {
             System.Windows.Forms.TrackBar myTB2;
             myTB2 = (System.Windows.Forms.TrackBar)sender;
+            currF = myTB2.Value;
             process_frontal(myTB2.Value);
             pictureBox2.Image = seedFrontal;
+            pictureBox2.Invalidate();
+            paintHandler = false;
         }
 
         private void trackBar3_Scroll(object sender, EventArgs e)
         {
             System.Windows.Forms.TrackBar myTB3;
             myTB3 = (System.Windows.Forms.TrackBar)sender;
+            currL = myTB3.Value;
             process_lateral(myTB3.Value);
             pictureBox3.Image = seedLateral;
+            pictureBox3.Invalidate();
+            paintHandler = false;
         }
 
         private void process_frontal(int pos)
         {
             Color newPixel;
-            int flip = 0;
-            for (int i = orig_img.Count() - 1; i >= 0 && flip < orig_img.Count(); i--)
+            if (checkBox1.Checked)
             {
-                for (int j = 0; j < width; j++)
+                int flip = 0;
+                for (int i = orig_img.Count() - 1; i >= 0 && flip < orig_img.Count(); i--)
                 {
-                    newPixel = orig_img[i].GetPixel(j, pos);
-                    seedFrontal.SetPixel(j, flip, newPixel);
+                    for (int j = 0; j < width; j++)
+                    {
+                        newPixel = orig_img[i].GetPixel(j, pos);
+                        seedFrontal.SetPixel(j, flip, newPixel);
+                    }
+                    flip++;
                 }
-                flip++;
+            }
+            else
+            {
+                for(int i = 0; i < orig_img.Count() - 1;i++)
+                {
+                    for(int j = 0; j < width; j++)
+                    {
+                        newPixel = orig_img[i].GetPixel(j, pos);
+                        seedFrontal.SetPixel(j, i, newPixel);
+                    }
+                }
             }
         }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if(checkBox1.Checked)
+            {
+                checkBox1.Text = "Aquisição em sentido caudo-craneal";
+            }
+            else
+            {
+                checkBox1.Text = "Aquisição em sentido cranêo-caudal";
+            }
+        }
+
         private void process_lateral(int pos)
         {
-            int revert = 0;
             Color newPixel;
-            for (int i = orig_img.Count() - 1; i >= 0 && revert < orig_img.Count(); i--)
+            if (checkBox1.Checked)
             {
-                for (int j = 0; j < height; j++)
+                int flip = 0;
+                for (int i = orig_img.Count() - 1; i >= 0 && flip < orig_img.Count(); i--)
                 {
-                    newPixel = orig_img[i].GetPixel(pos, j);
-                    seedLateral.SetPixel(j, revert, newPixel);
+                    for (int j = 0; j < height; j++)
+                    {
+                        newPixel = orig_img[i].GetPixel(pos, j);
+                        seedLateral.SetPixel(j, flip, newPixel);
+                    }
+                    flip++;
                 }
-                revert++;
             }
+            else
+            {
+                for (int i = 0; i <orig_img.Count() - 1; i++)
+                {
+                    for (int j = 0; j < height; j++)
+                    {
+                        newPixel = orig_img[i].GetPixel(pos, j);
+                        seedLateral.SetPixel(j, i, newPixel);
+                    }
+                }
+            }
+
         }
-    }
+
+        private void pictureBox2_Paint(object sender, PaintEventArgs e)
+        {
+            int aux;
+            if (!paintHandler)
+            {
+                return;
+            }
+
+            if(checkBox1.Checked)
+            {
+                aux = orig_img.Count() - 1 - currBMP;
+            }
+            else
+            {
+                aux = currBMP;
+            }
+                  
+            float imageRatio = w_iF / (float)h_iF; // image W:H ratio
+            float containerRatio = w_cF / (float)h_cF; // container W:H ratio
+            float scaledHeight;
+            float scaledWidth;
+            Point line = new Point();
+            float filler;
+            Point imgStart = new Point();
+            int imgEnd;
+            if (imageRatio >= containerRatio)
+            {
+                // horizontal image
+                float scaleFactor = w_cF / (float)w_iF;
+                scaledHeight = h_iF * scaleFactor;
+                // calculate gap between top of container and top of image
+                filler = Math.Abs(h_cF - scaledHeight) / 2;
+                line.X = (int)(px * scaleFactor);
+                line.Y = (int)(aux * scaleFactor + filler);
+                imgStart.X = 0;
+                imgStart.Y = (int)filler;
+                imgEnd = imgStart.Y + (int)scaledHeight;
+                
+            }
+            else
+            {
+                // vertical image
+                float scaleFactor = h_cF / (float)h_iF;
+                scaledWidth = w_iF * scaleFactor;
+                filler = Math.Abs(w_cF - scaledWidth) / 2;
+                line.X = (int)((px * scaleFactor) + filler);
+                line.Y = (int)(aux * scaleFactor);
+                imgStart.X = (int)filler;
+                imgStart.Y = 0;
+                imgEnd = imgStart.X + (int)scaledWidth;
+            }
+            
+            Pen pen = new Pen(Color.Yellow, 1);
+            e.Graphics.DrawLine(pen, new Point(imgStart.X, line.Y), new Point(imgEnd, line.Y));
+            e.Graphics.DrawLine(pen, new Point(line.X,imgStart.Y), new Point(line.X,imgEnd));
+        }
+
+        private void pictureBox3_Paint(object sender, PaintEventArgs e)
+        {
+            int aux;
+            if (!paintHandler)
+            {
+                return;
+            }
+
+            if (checkBox1.Checked)
+            {
+                aux = orig_img.Count() - 1 - currBMP;
+            }
+            else
+            {
+                aux = currBMP;
+            }
+
+            float imageRatio = w_iL / (float)h_iL; // image W:H ratio
+            float containerRatio = w_cL / (float)h_cL; // container W:H ratio
+            float scaledHeight;
+            float scaledWidth;
+            Point line = new Point();
+            float filler;
+            Point imgStart = new Point();
+            int imgEnd;
+            if (imageRatio >= containerRatio)
+            {
+                // horizontal image
+                float scaleFactor = w_cL / (float)w_iL;
+                scaledHeight = h_iL * scaleFactor;
+                // calculate gap between top of container and top of image
+                filler = Math.Abs(h_cL - scaledHeight) / 2;
+                line.X = (int)(py * scaleFactor);
+                line.Y = (int)(aux * scaleFactor + filler);
+                imgStart.X = 0;
+                imgStart.Y = (int)filler;
+                imgEnd = imgStart.Y + (int)scaledHeight;
+
+            }
+            else
+            {
+                // vertical image
+                float scaleFactor = h_cL / (float)h_iL;
+                scaledWidth = w_iL * scaleFactor;
+                filler = Math.Abs(w_cL - scaledWidth) / 2;
+                line.X = (int)((py * scaleFactor) + filler);
+                line.Y = (int)(aux * scaleFactor);
+                imgStart.X = (int)filler;
+                imgStart.Y = 0;
+                imgEnd = imgStart.X + (int)scaledWidth;
+            }
+
+            Pen pen = new Pen(Color.Yellow, 1);
+            e.Graphics.DrawLine(pen, new Point(imgStart.X, line.Y), new Point(imgEnd, line.Y));
+            e.Graphics.DrawLine(pen, new Point(line.X, imgStart.Y), new Point(line.X, imgEnd));
+        }
+    }    
 }
