@@ -20,8 +20,11 @@ namespace RSI_Project
         int width;
         Bitmap seedFrontal;
         Bitmap seedLateral;
+
+
         List<Bitmap> lateral_img = new List<Bitmap>();
         int currBMP, currF,currL;
+        Point coordinates;
 
         int w_iF, h_iF, w_cF, h_cF;
         int w_iL, h_iL, w_cL, h_cL;
@@ -38,6 +41,8 @@ namespace RSI_Project
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
+            BackColor = Color.Black;
+            checkBox1.ForeColor = Color.White;
         }
         private void InitializeTrackBar()
         {
@@ -93,8 +98,6 @@ namespace RSI_Project
                     /* Nova implementação */
                     height = orig_img[0].Height;
                     width = orig_img[0].Width;
-                    Trace.WriteLine(width);
-                    Trace.WriteLine(height);
 
                     seedFrontal = new Bitmap(width, height);
                     seedLateral = new Bitmap(width, height);
@@ -116,13 +119,16 @@ namespace RSI_Project
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             MouseEventArgs me = (MouseEventArgs)e;
-            Point coordinates = me.Location;
+            coordinates = me.Location;
             px = coordinates.X * width / pictureBox1.Width;
             py = coordinates.Y * height / pictureBox1.Height;
             process_frontal(py);
             process_lateral(px);
+            pictureBox1.Image = orig_img.ElementAtOrDefault(currBMP);
             pictureBox2.Image = seedFrontal;
             pictureBox3.Image = seedLateral;
+            trackBar2.Value = px;
+            trackBar3.Value = py;
             w_iF = pictureBox2.Image.Width;
             h_iF = pictureBox2.Image.Height;
             w_cF = pictureBox2.ClientSize.Width;
@@ -149,7 +155,8 @@ namespace RSI_Project
             System.Windows.Forms.TrackBar myTB1;
             myTB1 = (System.Windows.Forms.TrackBar)sender;
             currBMP = myTB1.Value;
-            pictureBox1.Image = orig_img.ElementAtOrDefault(myTB1.Value);        
+            pictureBox1.Image = orig_img.ElementAtOrDefault(myTB1.Value);
+            pictureBox1.Invalidate();
         }
 
         private void trackBar2_Scroll(object sender, EventArgs e)
@@ -177,6 +184,7 @@ namespace RSI_Project
         private void process_frontal(int pos)
         {
             Color newPixel;
+
             if (checkBox1.Checked)
             {
                 int flip = 0;
@@ -218,6 +226,7 @@ namespace RSI_Project
         private void process_lateral(int pos)
         {
             Color newPixel;
+
             if (checkBox1.Checked)
             {
                 int flip = 0;
@@ -243,6 +252,25 @@ namespace RSI_Project
                 }
             }
 
+        }
+
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        {
+            if (!paintHandler)
+            {
+                return;
+            }
+            Pen penG = new Pen(Color.GreenYellow, 1);
+            Pen penR = new Pen(Color.OrangeRed, 1);
+            e.Graphics.DrawLine(penG, new Point(coordinates.X, 0), new Point(coordinates.X, pictureBox1.Height));
+            e.Graphics.DrawLine(penR, new Point(0, coordinates.Y), new Point(pictureBox1.Width, coordinates.Y));
+
+            int y = height - py;
+            int idx = currBMP + 1;
+            e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            e.Graphics.DrawString("Slice Index: " + idx, Font, Brushes.White, 20, 15);
+            e.Graphics.DrawString("x: " + px, Font, Brushes.White, 20, 30);
+            e.Graphics.DrawString("y: " + y, Font, Brushes.White, 20, 45);
         }
 
         private void pictureBox2_Paint(object sender, PaintEventArgs e)
@@ -282,7 +310,7 @@ namespace RSI_Project
                 imgStart.X = 0;
                 imgStart.Y = (int)filler;
                 imgEnd = imgStart.Y + (int)scaledHeight;
-                
+
             }
             else
             {
@@ -296,8 +324,8 @@ namespace RSI_Project
                 imgStart.Y = 0;
                 imgEnd = imgStart.X + (int)scaledWidth;
             }
-            
-            Pen pen = new Pen(Color.Yellow, 1);
+
+            Pen pen = new Pen(Color.OrangeRed, 1);
             e.Graphics.DrawLine(pen, new Point(imgStart.X, line.Y), new Point(imgEnd, line.Y));
             e.Graphics.DrawLine(pen, new Point(line.X,imgStart.Y), new Point(line.X,imgEnd));
         }
@@ -354,7 +382,7 @@ namespace RSI_Project
                 imgEnd = imgStart.X + (int)scaledWidth;
             }
 
-            Pen pen = new Pen(Color.Yellow, 1);
+            Pen pen = new Pen(Color.GreenYellow, 1);
             e.Graphics.DrawLine(pen, new Point(imgStart.X, line.Y), new Point(imgEnd, line.Y));
             e.Graphics.DrawLine(pen, new Point(line.X, imgStart.Y), new Point(line.X, imgEnd));
         }
