@@ -127,8 +127,8 @@ namespace RSI_Project
             pictureBox1.Image = orig_img.ElementAtOrDefault(currBMP);
             pictureBox2.Image = seedFrontal;
             pictureBox3.Image = seedLateral;
-            trackBar2.Value = px;
-            trackBar3.Value = py;
+            trackBar2.Value = py;
+            trackBar3.Value = px;
             w_iF = pictureBox2.Image.Width;
             h_iF = pictureBox2.Image.Height;
             w_cF = pictureBox2.ClientSize.Width;
