@@ -91,11 +91,7 @@ namespace RSI_Project
 
                     int x_max = orig_img.Count();
                     int y_max = x_max;
-                    //Loop through the images pixels create collumn
-                    int x;
-                    Rectangle rect = new Rectangle(50, 50, 50, 50);
 
-                    /* Nova implementação */
                     height = orig_img[0].Height;
                     width = orig_img[0].Width;
 
